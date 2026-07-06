@@ -1,0 +1,2489 @@
+{
+  "apiVersion": "dashboard.grafana.app/v2",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "cd72833c-70ec-4e77-99c3-36da3ebecdaa"
+  },
+  "spec": {
+    "annotations": [
+      {
+        "kind": "AnnotationQuery",
+        "spec": {
+          "builtIn": true,
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "legacyOptions": {
+            "type": "dashboard"
+          },
+          "name": "Annotations \u0026 Alerts",
+          "query": {
+            "datasource": {
+              "name": "-- Grafana --"
+            },
+            "group": "grafana",
+            "kind": "DataQuery",
+            "spec": {
+              "limit": 100,
+              "matchAny": false,
+              "tags": [],
+              "type": "dashboard"
+            },
+            "version": "v0"
+          }
+        }
+      }
+    ],
+    "cursorSync": "Off",
+    "description": "Grafana Dashboard for Synology Devices, collecting SNMP using Telegraf, and InfluxDB",
+    "editable": true,
+    "elements": {
+      "panel-10": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"memory.memTotalReal\" or r[\"_field\"] == \"memory.memAvailReal\" or r[\"_field\"] == \"memory.memBuffer\" or r[\"_field\"] == \"memory.memCached\")\r\n  |\u003e pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\r\n  |\u003e map(fn: (r) =\u003e ({ \r\n      r with \r\n      _value: 100.0 - ((float(v: r[\"memory.memAvailReal\"]) + float(v: r[\"memory.memBuffer\"]) + float(v: r[\"memory.memCached\"])) / float(v: r[\"memory.memTotalReal\"]) * 100.0) \r\n  }))\r\n  |\u003e group(columns: [\"source\", \"_field\", \"agent_host\"])\r\n  |\u003e aggregateWindow(every: ${interval}, fn: mean, createEmpty: false)\r\n"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {
+                "interval": "5m"
+              },
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 10,
+          "links": [],
+          "title": "RAM Usage",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "RAM usage %",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "drawStyle": "line",
+                    "fillOpacity": 30,
+                    "gradientMode": "hue",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "lineInterpolation": "smooth",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "dashed"
+                    }
+                  },
+                  "decimals": 0,
+                  "displayName": "RAM - ${__field.labels.agent_host}",
+                  "max": 100,
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "dark-green",
+                        "value": null
+                      }
+                    ]
+                  },
+                  "unit": "percent"
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "A"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#69cf12",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "displayName",
+                        "value": "RAM - ${__field.labels.agent_host}"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "legend": {
+                  "calcs": [
+                    "lastNotNull",
+                    "max",
+                    "mean"
+                  ],
+                  "displayMode": "table",
+                  "placement": "right",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "mode": "single",
+                  "sort": "none"
+                }
+              }
+            },
+            "version": ""
+          }
+        }
+      },
+      "panel-11": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology.disk\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"diskTemperature\")\r\n  |\u003e aggregateWindow(every: ${interval}, fn: last, createEmpty: false)\r\n  |\u003e yield(name: \"last\")"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {
+                "interval": "5m"
+              },
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 11,
+          "links": [],
+          "title": "Disk Temperatures - $synologyhostname",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 0,
+                  "displayName": "${__field.labels.diskID}",
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "dark-green",
+                        "value": null
+                      },
+                      {
+                        "color": "dark-orange",
+                        "value": 50
+                      },
+                      {
+                        "color": "dark-red",
+                        "value": 60
+                      }
+                    ]
+                  },
+                  "unit": "celsius"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "background",
+                "graphMode": "area",
+                "justifyMode": "center",
+                "orientation": "vertical",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value_and_name"
+              }
+            },
+            "version": "9.5.2"
+          }
+        }
+      },
+      "panel-14": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology.storageIO\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"storageIOReads\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e derivative()\r\n  |\u003e aggregateWindow(every: ${interval}, fn: mean)"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology.storageIO\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"storageIOWrites\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e derivative()\r\n  |\u003e aggregateWindow(every: ${interval}, fn: mean)"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                }
+              ],
+              "queryOptions": {
+                "interval": "5m"
+              },
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 14,
+          "links": [],
+          "title": "Disk IOPS",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "IOPS",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "drawStyle": "line",
+                    "fillOpacity": 30,
+                    "gradientMode": "opacity",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "lineInterpolation": "smooth",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "dashed"
+                    }
+                  },
+                  "decimals": 0,
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "dark-green",
+                        "value": null
+                      }
+                    ]
+                  },
+                  "unit": "iops"
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "A"
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "Read #${__field.labels.storageIODevice} - ${__field.labels.agent_host}"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "B"
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "Writes #${__field.labels.storageIODevice} - ${__field.labels.agent_host}"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "legend": {
+                  "calcs": [
+                    "lastNotNull",
+                    "max",
+                    "mean"
+                  ],
+                  "displayMode": "table",
+                  "placement": "right",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "mode": "single",
+                  "sort": "none"
+                }
+              }
+            },
+            "version": ""
+          }
+        }
+      },
+      "panel-15": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology.volume\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"hrStorageUsed\" or r[\"_field\"] == \"hrStorageSize\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"hrStorageDescr\"] =~ /^\\/volume\\d+/)\r\n  |\u003e pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\r\n  |\u003e map(fn: (r) =\u003e ({ r with _value: (float(v: r.hrStorageUsed) / float(v: r.hrStorageSize) * 100.0) }))\r\n  |\u003e aggregateWindow(every: ${interval}, fn: last, createEmpty: false)\r\n  |\u003e drop(columns: [\"hrStorageSize\", \"hrStorageUsed\"])\r\n  |\u003e yield(name: \"last\")\r\n  \r\n"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {
+                "interval": "5m"
+              },
+              "transformations": [
+                {
+                  "group": "organize",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "excludeByName": {
+                        "_value": false,
+                        "sysVolumeFreeSize": true,
+                        "sysVolumeTotalSizeEX": true
+                      },
+                      "indexByName": {},
+                      "renameByName": {}
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "description": "",
+          "id": 15,
+          "links": [],
+          "title": "Volume Usage",
+          "vizConfig": {
+            "group": "bargauge",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 0,
+                  "displayName": "${__field.labels.hrStorageDescr}",
+                  "max": 100,
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "dark-green",
+                        "value": null
+                      },
+                      {
+                        "color": "dark-yellow",
+                        "value": 65
+                      },
+                      {
+                        "color": "dark-orange",
+                        "value": 75
+                      },
+                      {
+                        "color": "dark-red",
+                        "value": 90
+                      }
+                    ]
+                  },
+                  "unit": "percent"
+                },
+                "overrides": []
+              },
+              "options": {
+                "displayMode": "lcd",
+                "minVizHeight": 10,
+                "minVizWidth": 0,
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showUnfilled": true,
+                "valueMode": "color"
+              }
+            },
+            "version": "9.5.2"
+          }
+        }
+      },
+      "panel-2": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"synoSystem.modelName\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e keep(columns: [\"_value\"])\r\n  |\u003e distinct(column: \"_value\")\r\n  |\u003e group() \r\n  |\u003e last() \r\n  |\u003e keep(columns: [\"_value\"]) "
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"synoSystem.version\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e keep(columns: [\"_value\"])\r\n  |\u003e distinct(column: \"_value\")\r\n  |\u003e group() \r\n  |\u003e last() \r\n  |\u003e keep(columns: [\"_value\"]) "
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "G"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"memory.memTotalReal\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e group() \r\n  |\u003e last() \r\n  |\u003e keep(columns: [\"_value\"]) \r\n"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"systemStats.ssCpuNumCpus\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e group() \r\n  |\u003e last() \r\n  |\u003e keep(columns: [\"_value\"]) "
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "D"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology.disk\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e keep(columns: [\"diskID\"])\r\n  |\u003e distinct(column: \"diskID\")\r\n  |\u003e group()\r\n  |\u003e count()"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "C"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology.network\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e keep(columns: [\"ifDescrEX\"])\r\n  |\u003e distinct(column: \"ifDescrEX\")\r\n  |\u003e group()\r\n  |\u003e count()"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "F"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"hrSystem.hrSystemUptime\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e map(fn: (r) =\u003e ({r with _value: r._value / 360000}))\r\n  |\u003e group() \r\n  |\u003e last() \r\n  |\u003e keep(columns: [\"_value\"]) \r\n\r\n"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "E"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": [
+                {
+                  "group": "calculateField",
+                  "kind": "Transformation",
+                  "spec": {
+                    "disabled": true,
+                    "options": {
+                      "alias": "",
+                      "mode": "reduceRow",
+                      "reduce": {
+                        "include": [
+                          "_value",
+                          "enclosureModel"
+                        ],
+                        "reducer": "lastNotNull"
+                      },
+                      "replaceFields": true
+                    }
+                  }
+                },
+                {
+                  "group": "reduce",
+                  "kind": "Transformation",
+                  "spec": {
+                    "disabled": true,
+                    "options": {
+                      "includeTimeField": false,
+                      "mode": "reduceFields",
+                      "reducers": [
+                        "lastNotNull"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "description": "This panel displays all the needed Synology information of the unit you are running.",
+          "id": 2,
+          "links": [],
+          "title": "Synology Overview - $synologyhostname",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "fixedColor": "dark-purple",
+                    "mode": "fixed"
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "dark-purple",
+                        "value": null
+                      }
+                    ]
+                  }
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "A"
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "Model"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "B"
+                    },
+                    "properties": [
+                      {
+                        "id": "unit",
+                        "value": "deckbytes"
+                      },
+                      {
+                        "id": "displayName",
+                        "value": "Total RAM"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "C"
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "Number of Disks"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "D"
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "Number of CPU Cores"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "E"
+                    },
+                    "properties": [
+                      {
+                        "id": "unit",
+                        "value": "h"
+                      },
+                      {
+                        "id": "displayName",
+                        "value": "Uptime"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "F"
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "Number of Ethernet Ports"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "G"
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "DSM Version"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "colorMode": "background",
+                "graphMode": "area",
+                "justifyMode": "center",
+                "orientation": "vertical",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "/.*/",
+                  "values": false
+                },
+                "text": {},
+                "textMode": "value_and_name"
+              }
+            },
+            "version": "9.5.2"
+          }
+        }
+      },
+      "panel-23": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology.disk\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"diskTemperature\")\r\n  |\u003e map(fn: (r) =\u003e ({ \"_time\": r[\"_time\"], \"_field\": \"CPU\", \"_value\": r[\"_value\"] }))\r\n  |\u003e aggregateWindow(every: ${interval}, fn: mean)"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology.disk\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"diskTemperature\")\r\n  |\u003e map(fn: (r) =\u003e ({ \"_time\": r[\"_time\"], \"_field\": r[\"diskID\"], \"_value\": r[\"_value\"] }))\r\n  |\u003e aggregateWindow(every: ${interval}, fn: mean)"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 23,
+          "links": [],
+          "title": "Temperatures",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "Temperatures in C",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "drawStyle": "line",
+                    "fillOpacity": 30,
+                    "gradientMode": "opacity",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "lineInterpolation": "smooth",
+                    "lineStyle": {
+                      "fill": "solid"
+                    },
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "dashed"
+                    }
+                  },
+                  "decimals": 0,
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "dark-green",
+                        "value": null
+                      }
+                    ]
+                  },
+                  "unit": "celsius"
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [
+                    "lastNotNull",
+                    "max",
+                    "mean"
+                  ],
+                  "displayMode": "table",
+                  "placement": "right",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "none"
+                }
+              }
+            },
+            "version": ""
+          }
+        }
+      },
+      "panel-24": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology.storageIO\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"storageIONReadX\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e derivative()\r\n  |\u003e aggregateWindow(every: ${interval}, fn: mean)"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology.storageIO\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"storageIONWrittenX\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e derivative()\r\n  |\u003e aggregateWindow(every: ${interval}, fn: mean)"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                }
+              ],
+              "queryOptions": {
+                "interval": "5m"
+              },
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 24,
+          "links": [],
+          "title": "Disk Throughput",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "MiB/s",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "drawStyle": "line",
+                    "fillOpacity": 30,
+                    "gradientMode": "opacity",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "lineInterpolation": "smooth",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "dashed"
+                    }
+                  },
+                  "decimals": 0,
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "dark-green",
+                        "value": null
+                      }
+                    ]
+                  },
+                  "unit": "binBps"
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "A"
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "Read #${__field.labels.storageIODevice} - ${__field.labels.agent_host}"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "B"
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "Writes #${__field.labels.storageIODevice} - ${__field.labels.agent_host}"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "legend": {
+                  "calcs": [
+                    "lastNotNull",
+                    "max",
+                    "mean"
+                  ],
+                  "displayMode": "table",
+                  "placement": "right",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "mode": "single",
+                  "sort": "none"
+                }
+              }
+            },
+            "version": ""
+          }
+        }
+      },
+      "panel-25": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology.services\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"serviceUsers\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |\u003e yield(name: \"mean\")"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 25,
+          "links": [],
+          "title": "Services",
+          "vizConfig": {
+            "group": "bargauge",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "displayName": "${__field.labels.serviceName}",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "dark-green",
+                        "value": null
+                      },
+                      {
+                        "color": "dark-yellow",
+                        "value": 10
+                      },
+                      {
+                        "color": "dark-orange",
+                        "value": 50
+                      },
+                      {
+                        "color": "dark-red",
+                        "value": 100
+                      }
+                    ]
+                  },
+                  "unit": "none"
+                },
+                "overrides": []
+              },
+              "options": {
+                "displayMode": "gradient",
+                "minVizHeight": 10,
+                "minVizWidth": 0,
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showUnfilled": true,
+                "text": {},
+                "valueMode": "color"
+              }
+            },
+            "version": "9.5.2"
+          }
+        }
+      },
+      "panel-27": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology.disk\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"diskModel\" or r[\"_field\"] == \"diskStatus\" or r[\"_field\"] == \"diskType\" or r[\"_field\"] == \"diskTemperature\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e last()\r\n  |\u003e pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\r\n  |\u003e group()"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": [
+                {
+                  "group": "filterFieldsByName",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "include": {
+                        "names": [
+                          "diskID",
+                          "diskModel",
+                          "diskStatus",
+                          "diskTemperature",
+                          "diskType"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "group": "organize",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "excludeByName": {},
+                      "indexByName": {
+                        "diskID": 0,
+                        "diskModel": 2,
+                        "diskStatus": 3,
+                        "diskTemperature": 4,
+                        "diskType": 1
+                      },
+                      "renameByName": {
+                        "diskID": "Disk",
+                        "diskIndex": "",
+                        "diskModel": "Model",
+                        "diskStatus": "Status",
+                        "diskTemperature": "Temperature",
+                        "diskType": "Type"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "description": "",
+          "id": 27,
+          "links": [],
+          "title": "Disks Overview",
+          "vizConfig": {
+            "group": "table",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "custom": {
+                    "align": "auto",
+                    "cellOptions": {
+                      "type": "auto"
+                    },
+                    "filterable": true,
+                    "inspect": false
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": null
+                      }
+                    ]
+                  }
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Status"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.cellOptions",
+                        "value": {
+                          "mode": "gradient",
+                          "type": "color-background"
+                        }
+                      },
+                      {
+                        "id": "custom.align",
+                        "value": "center"
+                      },
+                      {
+                        "id": "mappings",
+                        "value": [
+                          {
+                            "options": {
+                              "3": {
+                                "color": "dark-orange",
+                                "index": 1,
+                                "text": "Warning"
+                              }
+                            },
+                            "type": "value"
+                          },
+                          {
+                            "options": {
+                              "from": 1,
+                              "result": {
+                                "color": "dark-green",
+                                "index": 0,
+                                "text": "Normal"
+                              },
+                              "to": 2
+                            },
+                            "type": "range"
+                          },
+                          {
+                            "options": {
+                              "from": 4,
+                              "result": {
+                                "color": "dark-red",
+                                "index": 2,
+                                "text": "Failed"
+                              },
+                              "to": 5
+                            },
+                            "type": "range"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Temperature"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.cellOptions",
+                        "value": {
+                          "mode": "lcd",
+                          "type": "gauge",
+                          "valueDisplayMode": "text"
+                        }
+                      },
+                      {
+                        "id": "unit",
+                        "value": "celsius"
+                      },
+                      {
+                        "id": "custom.align",
+                        "value": "center"
+                      },
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "thresholds"
+                        }
+                      },
+                      {
+                        "id": "thresholds",
+                        "value": {
+                          "mode": "absolute",
+                          "steps": [
+                            {
+                              "color": "dark-green"
+                            },
+                            {
+                              "color": "dark-orange",
+                              "value": 50
+                            },
+                            {
+                              "color": "dark-red",
+                              "value": 60
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "cellHeight": "sm",
+                "footer": {
+                  "countRows": false,
+                  "fields": "",
+                  "reducer": [
+                    "sum"
+                  ],
+                  "show": false
+                },
+                "showHeader": true
+              }
+            },
+            "version": "9.5.2"
+          }
+        }
+      },
+      "panel-4": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "numCpus = from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"systemStats.ssCpuNumCpus\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e aggregateWindow(every: 1m, fn: mean)\r\n  |\u003e pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\r\n  |\u003e keep(columns: [\"_time\", \"_start\", \"_stop\", \"host\", \"agent_host\", \"systemStats.ssCpuNumCpus\"])\r\n\r\nstats = from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"systemStats.ssCpuRawSystem\" or r[\"_field\"] == \"systemStats.ssCpuRawUser\" or r[\"_field\"] == \"systemStats.ssCpuRawWait\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e derivative()\r\n  |\u003e aggregateWindow(every: 1m, fn: mean)\r\n  |\u003e pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\r\n  |\u003e keep(columns: [\"_time\", \"_start\", \"_stop\", \"host\", \"agent_host\", \"systemStats.ssCpuRawSystem\", \"systemStats.ssCpuRawUser\", \"systemStats.ssCpuRawWait\"])\r\n\r\njoin(\r\n    tables: { numCpus: numCpus, stats: stats },\r\n    on: [\"_time\", \"_start\", \"_stop\"]\r\n  )\r\n  |\u003e map(fn: (r) =\u003e ({\r\n    r with\r\n    \"systemStats.ssCpuRawSystem\": r[\"systemStats.ssCpuRawSystem\"] / float(v: r[\"systemStats.ssCpuNumCpus\"]),\r\n    \"systemStats.ssCpuRawUser\": r[\"systemStats.ssCpuRawUser\"] / float(v: r[\"systemStats.ssCpuNumCpus\"]),\r\n    \"systemStats.ssCpuRawWait\": r[\"systemStats.ssCpuRawWait\"] / float(v: r[\"systemStats.ssCpuNumCpus\"]),\r\n  }))\r\n  |\u003e drop(columns: [\"systemStats.ssCpuNumCpus\"])"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "C"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": [
+                {
+                  "group": "labelsToFields",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "keepLabels": [
+                        "host_numCpus"
+                      ],
+                      "mode": "columns"
+                    }
+                  }
+                },
+                {
+                  "group": "calculateField",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "mode": "reduceRow",
+                      "reduce": {
+                        "include": [],
+                        "reducer": "sum"
+                      },
+                      "replaceFields": false
+                    }
+                  }
+                },
+                {
+                  "group": "organize",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "excludeByName": {
+                        "_time": false,
+                        "host_numCpus": true
+                      },
+                      "indexByName": {},
+                      "renameByName": {
+                        "host_numCpus": "",
+                        "systemStats.ssCpuRawSystem": "System",
+                        "systemStats.ssCpuRawSystem {_start=\"2024-01-01 22:50:18.623 +0000 UTC\", _stop=\"2024-01-02 10:50:18.624 +0000 UTC\", agent_host_numCpus=\"192.168.1.221\", agent_host_stats=\"192.168.1.221\", host_numCpus=\"tig-monitor\", host_stats=\"tig-monitor\"}": "System",
+                        "systemStats.ssCpuRawUser": "User",
+                        "systemStats.ssCpuRawUser {_start=\"2024-01-01 22:50:18.623 +0000 UTC\", _stop=\"2024-01-02 10:50:18.624 +0000 UTC\", agent_host_numCpus=\"192.168.1.221\", agent_host_stats=\"192.168.1.221\", host_numCpus=\"tig-monitor\", host_stats=\"tig-monitor\"}": "User",
+                        "systemStats.ssCpuRawWait": "I/O Wait",
+                        "systemStats.ssCpuRawWait {_start=\"2024-01-01 22:50:18.623 +0000 UTC\", _stop=\"2024-01-02 10:50:18.624 +0000 UTC\", agent_host_numCpus=\"192.168.1.221\", agent_host_stats=\"192.168.1.221\", host_numCpus=\"tig-monitor\", host_stats=\"tig-monitor\"}": "I/O Wait"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "description": "",
+          "id": 4,
+          "links": [],
+          "title": "CPU Usage",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "CPU usage %",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "drawStyle": "line",
+                    "fillOpacity": 30,
+                    "gradientMode": "hue",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "lineInterpolation": "smooth",
+                    "lineStyle": {
+                      "fill": "solid"
+                    },
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "normal"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "dashed"
+                    }
+                  },
+                  "decimals": 0,
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "dark-green",
+                        "value": null
+                      },
+                      {
+                        "color": "dark-orange",
+                        "value": 70
+                      },
+                      {
+                        "color": "dark-red",
+                        "value": 90
+                      }
+                    ]
+                  },
+                  "unit": "percent"
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "User"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#3ce39d",
+                          "mode": "fixed"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "System"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#4cb0f0",
+                          "mode": "fixed"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "I/O Wait"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#5b6adf",
+                          "mode": "fixed"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "legend": {
+                  "calcs": [
+                    "lastNotNull",
+                    "max",
+                    "mean"
+                  ],
+                  "displayMode": "table",
+                  "placement": "right",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "none"
+                }
+              }
+            },
+            "version": ""
+          }
+        }
+      },
+      "panel-5": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"synoSystem.temperature\")\r\n  |\u003e aggregateWindow(every: ${interval}, fn: last, createEmpty: false)\r\n  |\u003e yield(name: \"last\")"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {
+                "interval": "5m"
+              },
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 5,
+          "links": [],
+          "title": "System Temperatures - $synologyhostname",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 0,
+                  "displayName": "System Temperature",
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "dark-green",
+                        "value": null
+                      },
+                      {
+                        "color": "dark-orange",
+                        "value": 70
+                      },
+                      {
+                        "color": "dark-red",
+                        "value": 85
+                      }
+                    ]
+                  },
+                  "unit": "celsius"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "background",
+                "graphMode": "area",
+                "justifyMode": "center",
+                "orientation": "vertical",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value_and_name"
+              }
+            },
+            "version": "9.5.2"
+          }
+        }
+      },
+      "panel-6": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology.network\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"ifHCOutOctets\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e group(columns: [\"ifName\",\"agent_host\"])\r\n  |\u003e derivative(unit: 1s, nonNegative: true)\r\n  |\u003e aggregateWindow(every: ${interval}, fn: last, createEmpty: false)\r\n  |\u003e yield(name: \"nonnegative derivative\")\r\n"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology.network\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"ifHCInOctets\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e group(columns: [\"ifName\",\"agent_host\"])\r\n  |\u003e derivative(unit: 1s, nonNegative: true)\r\n  |\u003e aggregateWindow(every: ${interval}, fn: last, createEmpty: false)\r\n  |\u003e yield(name: \"nonnegative derivative\")"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                }
+              ],
+              "queryOptions": {
+                "interval": "5m"
+              },
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 6,
+          "links": [],
+          "title": "Network Usage - Traffic Sent",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "continuous-BlYlRd"
+                  },
+                  "custom": {
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "Traffic Sent",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "drawStyle": "line",
+                    "fillOpacity": 30,
+                    "gradientMode": "hue",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "lineInterpolation": "smooth",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "decimals": 0,
+                  "displayName": "${__field.labels.ifName} in - ${__field.labels.agent_host}",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "dark-green",
+                        "value": null
+                      }
+                    ]
+                  },
+                  "unit": "KBs"
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "A"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.transform",
+                        "value": "negative-Y"
+                      },
+                      {
+                        "id": "displayName",
+                        "value": "${__field.labels.ifName} out - ${__field.labels.agent_host}"
+                      },
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "continuous-RdYlGr"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "legend": {
+                  "calcs": [
+                    "lastNotNull",
+                    "max",
+                    "mean"
+                  ],
+                  "displayMode": "table",
+                  "placement": "right",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "none"
+                }
+              }
+            },
+            "version": ""
+          }
+        }
+      },
+      "panel-9": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"synoSystem.cpuFanStatus\")\r\n  |\u003e yield(name: \"last\")"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "ddl8pl8d4y0owa"
+                      },
+                      "group": "influxdb",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "query": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"synoSystem.systemFanStatus\")\r\n  |\u003e yield(name: \"last\")"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 9,
+          "links": [],
+          "title": "FAN Status - $synologyhostname",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "mappings": [
+                    {
+                      "options": {
+                        "1": {
+                          "color": "dark-green",
+                          "index": 0,
+                          "text": "Normal"
+                        },
+                        "2": {
+                          "color": "dark-red",
+                          "index": 1,
+                          "text": "Failed"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "semi-dark-blue",
+                        "value": null
+                      }
+                    ]
+                  },
+                  "unit": "none"
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "A"
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "CPU FAN"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "B"
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "System FAN"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "colorMode": "background",
+                "graphMode": "none",
+                "justifyMode": "center",
+                "orientation": "auto",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "text": {},
+                "textMode": "auto"
+              }
+            },
+            "version": "9.5.2"
+          }
+        }
+      }
+    },
+    "layout": {
+      "kind": "RowsLayout",
+      "spec": {
+        "rows": [
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-2"
+                        },
+                        "height": 5,
+                        "repeat": {
+                          "direction": "h",
+                          "mode": "variable",
+                          "value": "synologyhostname"
+                        },
+                        "width": 24,
+                        "x": 0,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "Synology Quick Overview"
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-9"
+                        },
+                        "height": 5,
+                        "repeat": {
+                          "direction": "v",
+                          "mode": "variable",
+                          "value": "synologyhostname"
+                        },
+                        "width": 7,
+                        "x": 0,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-5"
+                        },
+                        "height": 5,
+                        "repeat": {
+                          "direction": "v",
+                          "mode": "variable",
+                          "value": "synologyhostname"
+                        },
+                        "width": 3,
+                        "x": 7,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-11"
+                        },
+                        "height": 5,
+                        "repeat": {
+                          "direction": "v",
+                          "mode": "variable",
+                          "value": "synologyhostname"
+                        },
+                        "width": 14,
+                        "x": 10,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "Synology Temperature"
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-25"
+                        },
+                        "height": 7,
+                        "width": 9,
+                        "x": 0,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-27"
+                        },
+                        "height": 7,
+                        "width": 15,
+                        "x": 9,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "Synology Overall Status"
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-4"
+                        },
+                        "height": 7,
+                        "width": 12,
+                        "x": 0,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-10"
+                        },
+                        "height": 7,
+                        "width": 12,
+                        "x": 12,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-6"
+                        },
+                        "height": 7,
+                        "width": 24,
+                        "x": 0,
+                        "y": 7
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-23"
+                        },
+                        "height": 7,
+                        "width": 12,
+                        "x": 0,
+                        "y": 14
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-15"
+                        },
+                        "height": 7,
+                        "width": 12,
+                        "x": 12,
+                        "y": 14
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-14"
+                        },
+                        "height": 7,
+                        "width": 12,
+                        "x": 0,
+                        "y": 21
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-24"
+                        },
+                        "height": 7,
+                        "width": 12,
+                        "x": 12,
+                        "y": 21
+                      }
+                    }
+                  ]
+                }
+              },
+              "title": "Synology System Usage"
+            }
+          }
+        ]
+      }
+    },
+    "links": [],
+    "liveNow": false,
+    "preload": false,
+    "revision": 1,
+    "tags": [
+      "synology"
+    ],
+    "timeSettings": {
+      "autoRefresh": "5m",
+      "autoRefreshIntervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "fiscalYearStartMonth": 0,
+      "from": "now-1h",
+      "hideTimepicker": false,
+      "to": "now"
+    },
+    "title": "Synology Dashboard",
+    "variables": [
+      {
+        "kind": "IntervalVariable",
+        "spec": {
+          "auto": true,
+          "auto_count": 100,
+          "auto_min": "30s",
+          "current": {
+            "text": "auto",
+            "value": "$__auto_interval_interval"
+          },
+          "hide": "dontHide",
+          "label": "Sampling",
+          "name": "interval",
+          "options": [
+            {
+              "selected": true,
+              "text": "auto",
+              "value": "$__auto_interval_interval"
+            },
+            {
+              "selected": false,
+              "text": "1m",
+              "value": "1m"
+            },
+            {
+              "selected": false,
+              "text": "10m",
+              "value": "10m"
+            },
+            {
+              "selected": false,
+              "text": "30m",
+              "value": "30m"
+            },
+            {
+              "selected": false,
+              "text": "1h",
+              "value": "1h"
+            },
+            {
+              "selected": false,
+              "text": "6h",
+              "value": "6h"
+            },
+            {
+              "selected": false,
+              "text": "12h",
+              "value": "12h"
+            },
+            {
+              "selected": false,
+              "text": "1d",
+              "value": "1d"
+            },
+            {
+              "selected": false,
+              "text": "7d",
+              "value": "7d"
+            },
+            {
+              "selected": false,
+              "text": "14d",
+              "value": "14d"
+            },
+            {
+              "selected": false,
+              "text": "30d",
+              "value": "30d"
+            }
+          ],
+          "query": "1m,10m,30m,1h,6h,12h,1d,7d,14d,30d",
+          "refresh": "onTimeRangeChanged",
+          "skipUrlSync": false
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "allowCustomValue": true,
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "definition": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] != \"\")\r\n  |\u003e keep(columns: [\"agent_host\"])\r\n  |\u003e distinct(column: \"agent_host\")\r\n  |\u003e group()\r\n  \r\n",
+          "description": "Synology Hostname Variable",
+          "hide": "dontHide",
+          "includeAll": true,
+          "label": "Hostname",
+          "multi": true,
+          "name": "synologyhostname",
+          "options": [],
+          "query": {
+            "datasource": {
+              "name": "ddl8pl8d4y0owa"
+            },
+            "group": "influxdb",
+            "kind": "DataQuery",
+            "spec": {
+              "__legacyStringValue": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] != \"\")\r\n  |\u003e keep(columns: [\"agent_host\"])\r\n  |\u003e distinct(column: \"agent_host\")\r\n  |\u003e group()\r\n  \r\n"
+            },
+            "version": "v0"
+          },
+          "refresh": "onTimeRangeChanged",
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": "disabled"
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "allowCustomValue": true,
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "definition": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"synoSystem.modelName\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e keep(columns: [\"sysName\"])\r\n  |\u003e distinct(column: \"sysName\")\r\n  |\u003e group()\r\n  \r\n",
+          "description": "Synology Model Variable",
+          "hide": "dontHide",
+          "includeAll": true,
+          "label": "Synology",
+          "multi": true,
+          "name": "synologymodel",
+          "options": [],
+          "query": {
+            "datasource": {
+              "name": "ddl8pl8d4y0owa"
+            },
+            "group": "influxdb",
+            "kind": "DataQuery",
+            "spec": {
+              "__legacyStringValue": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"_field\"] == \"synoSystem.modelName\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e keep(columns: [\"sysName\"])\r\n  |\u003e distinct(column: \"sysName\")\r\n  |\u003e group()\r\n  \r\n"
+            },
+            "version": "v0"
+          },
+          "refresh": "onTimeRangeChanged",
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": "disabled"
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "allowCustomValue": true,
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "definition": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology.disk\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e keep(columns: [\"diskID\"])\r\n  |\u003e distinct(column: \"diskID\")\r\n  |\u003e group()\r\n  \r\n",
+          "description": "Synology Hostname Variable",
+          "hide": "dontHide",
+          "includeAll": true,
+          "label": "Disk",
+          "multi": true,
+          "name": "synologydisk",
+          "options": [],
+          "query": {
+            "datasource": {
+              "name": "ddl8pl8d4y0owa"
+            },
+            "group": "influxdb",
+            "kind": "DataQuery",
+            "spec": {
+              "__legacyStringValue": "from(bucket: v.defaultBucket)\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r[\"_measurement\"] == \"snmp.Synology.disk\")\r\n  |\u003e filter(fn: (r) =\u003e r[\"agent_host\"] =~ /${synologyhostname:regex}/)\r\n  |\u003e keep(columns: [\"diskID\"])\r\n  |\u003e distinct(column: \"diskID\")\r\n  |\u003e group()\r\n  \r\n"
+            },
+            "version": "v0"
+          },
+          "refresh": "onTimeRangeChanged",
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": "disabled"
+        }
+      }
+    ]
+  }
+}
