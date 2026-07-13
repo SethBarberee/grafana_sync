@@ -13,9 +13,6 @@
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
-          "legacyOptions": {
-            "type": "dashboard"
-          },
           "name": "Annotations \u0026 Alerts",
           "query": {
             "datasource": {
@@ -30,6 +27,7 @@
       }
     ],
     "cursorSync": "Crosshair",
+    "description": "",
     "editable": true,
     "elements": {
       "panel-10": {
@@ -141,6 +139,7 @@
                       "type": "linear"
                     },
                     "showPoints": "never",
+                    "showValues": false,
                     "spanNulls": false,
                     "stacking": {
                       "group": "A",
@@ -155,7 +154,7 @@
                     "steps": [
                       {
                         "color": "green",
-                        "value": null
+                        "value": 0
                       },
                       {
                         "color": "red",
@@ -181,11 +180,17 @@
                 ]
               },
               "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
                 "legend": {
                   "calcs": [
                     "mean"
                   ],
                   "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
                   "placement": "bottom",
                   "showLegend": true
                 },
@@ -196,7 +201,7 @@
                 }
               }
             },
-            "version": "11.6.0"
+            "version": "13.1.0"
           }
         }
       },
@@ -307,6 +312,7 @@
                       "type": "linear"
                     },
                     "showPoints": "never",
+                    "showValues": false,
                     "spanNulls": false,
                     "stacking": {
                       "group": "A",
@@ -322,7 +328,7 @@
                     "steps": [
                       {
                         "color": "green",
-                        "value": null
+                        "value": 0
                       },
                       {
                         "color": "red",
@@ -335,11 +341,17 @@
                 "overrides": []
               },
               "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
                 "legend": {
                   "calcs": [
                     "mean"
                   ],
                   "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
                   "placement": "bottom",
                   "showLegend": true
                 },
@@ -350,7 +362,7 @@
                 }
               }
             },
-            "version": "11.6.0"
+            "version": "13.1.0"
           }
         }
       },
@@ -419,7 +431,7 @@
                     "steps": [
                       {
                         "color": "red",
-                        "value": null
+                        "value": 0
                       },
                       {
                         "color": "green",
@@ -449,7 +461,7 @@
                 "wideLayout": true
               }
             },
-            "version": "11.6.0"
+            "version": "13.1.0"
           }
         }
       },
@@ -506,7 +518,7 @@
                     "steps": [
                       {
                         "color": "green",
-                        "value": null
+                        "value": 0
                       },
                       {
                         "color": "red",
@@ -535,7 +547,7 @@
                 "wideLayout": true
               }
             },
-            "version": "11.6.0"
+            "version": "13.1.0"
           }
         }
       },
@@ -591,7 +603,7 @@
                     "steps": [
                       {
                         "color": "green",
-                        "value": null
+                        "value": 0
                       },
                       {
                         "color": "red",
@@ -620,7 +632,7 @@
                 "wideLayout": true
               }
             },
-            "version": "11.6.0"
+            "version": "13.1.0"
           }
         }
       },
@@ -676,7 +688,7 @@
                     "steps": [
                       {
                         "color": "green",
-                        "value": null
+                        "value": 0
                       },
                       {
                         "color": "red",
@@ -705,7 +717,7 @@
                 "wideLayout": true
               }
             },
-            "version": "11.6.0"
+            "version": "13.1.0"
           }
         }
       },
@@ -761,7 +773,7 @@
                     "steps": [
                       {
                         "color": "green",
-                        "value": null
+                        "value": 0
                       },
                       {
                         "color": "red",
@@ -790,7 +802,7 @@
                 "wideLayout": true
               }
             },
-            "version": "11.6.0"
+            "version": "13.1.0"
           }
         }
       },
@@ -882,6 +894,9 @@
                       "type": "auto"
                     },
                     "filterable": false,
+                    "footer": {
+                      "reducers": []
+                    },
                     "inspect": false
                   },
                   "thresholds": {
@@ -889,7 +904,7 @@
                     "steps": [
                       {
                         "color": "green",
-                        "value": null
+                        "value": 0
                       },
                       {
                         "color": "red",
@@ -915,15 +930,7 @@
               },
               "options": {
                 "cellHeight": "sm",
-                "footer": {
-                  "countRows": false,
-                  "enablePagination": true,
-                  "fields": "",
-                  "reducer": [
-                    "sum"
-                  ],
-                  "show": false
-                },
+                "enablePagination": true,
                 "showHeader": true,
                 "sortBy": [
                   {
@@ -933,7 +940,7 @@
                 ]
               }
             },
-            "version": "11.6.0"
+            "version": "13.1.0"
           }
         }
       },
@@ -1016,6 +1023,9 @@
                     "cellOptions": {
                       "type": "auto"
                     },
+                    "footer": {
+                      "reducers": []
+                    },
                     "inspect": false
                   },
                   "thresholds": {
@@ -1023,7 +1033,7 @@
                     "steps": [
                       {
                         "color": "green",
-                        "value": null
+                        "value": 0
                       },
                       {
                         "color": "red",
@@ -1036,20 +1046,12 @@
               },
               "options": {
                 "cellHeight": "sm",
-                "footer": {
-                  "countRows": false,
-                  "enablePagination": true,
-                  "fields": "",
-                  "reducer": [
-                    "sum"
-                  ],
-                  "show": false
-                },
+                "enablePagination": true,
                 "showHeader": true,
                 "sortBy": []
               }
             },
-            "version": "11.6.0"
+            "version": "13.1.0"
           }
         }
       },
@@ -1241,7 +1243,7 @@
                     "steps": [
                       {
                         "color": "green",
-                        "value": null
+                        "value": 0
                       },
                       {
                         "color": "red",
@@ -1254,8 +1256,13 @@
               },
               "options": {
                 "alignValue": "left",
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
                 "legend": {
                   "displayMode": "list",
+                  "overflow": "ellipsis",
                   "placement": "bottom",
                   "showLegend": false
                 },
@@ -1269,7 +1276,7 @@
                 }
               }
             },
-            "version": "11.6.0"
+            "version": "13.1.0"
           }
         }
       },
@@ -1461,7 +1468,7 @@
                     "steps": [
                       {
                         "color": "green",
-                        "value": null
+                        "value": 0
                       },
                       {
                         "color": "red",
@@ -1474,8 +1481,13 @@
               },
               "options": {
                 "alignValue": "left",
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
                 "legend": {
                   "displayMode": "list",
+                  "overflow": "ellipsis",
                   "placement": "bottom",
                   "showLegend": false
                 },
@@ -1489,7 +1501,317 @@
                 }
               }
             },
-            "version": "11.6.0"
+            "version": "13.1.0"
+          }
+        }
+      },
+      "panel-23": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "dez0dkxei4oowa"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "jellyfin_media_count{type=\"Song\", instance=~\"$instance\"}",
+                        "instant": false,
+                        "legendFormat": "__auto",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 23,
+          "links": [],
+          "title": "Music",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "fixed"
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "none",
+                "graphMode": "none",
+                "justifyMode": "center",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "value",
+                "wideLayout": true
+              }
+            },
+            "version": "13.1.0"
+          }
+        }
+      },
+      "panel-24": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "dez0dkxei4oowa"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "sum by (user_device, item_index_clean, type) (\n  label_replace(\n    label_join(\n      label_join(\n        label_join(\n          jellyfin_now_playing_state{instance=~\"$instance\"},\n          \"item_index\",\n          \" \",\n          \"series_season\",\n          \"series_episode\"\n        ),\n        \"full_name\",\n        \" - \",\n        \"series_title\",\n        \"item_index\",\n        \"title\"\n      ),\n      \"user_device\",\n      \" - \",\n      \"username\",\n      \"device\"\n    ),\n    \"item_index_clean\",\n    \"$1\",\n    \"full_name\",\n    \"^[- ]*(.*?)[- ]*$\"\n  )\n)\n",
+                        "instant": false,
+                        "legendFormat": "__auto",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": [
+                {
+                  "group": "seriesToRows",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {}
+                  }
+                },
+                {
+                  "group": "extractFields",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "keepTime": false,
+                      "replace": false,
+                      "source": "Metric"
+                    }
+                  }
+                },
+                {
+                  "group": "filterByValue",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "filters": [
+                        {
+                          "config": {
+                            "id": "isNotNull",
+                            "options": {}
+                          },
+                          "fieldName": "user_device"
+                        }
+                      ],
+                      "match": "any",
+                      "type": "include"
+                    }
+                  }
+                },
+                {
+                  "group": "calculateField",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "alias": "Item",
+                      "mode": "reduceRow",
+                      "reduce": {
+                        "include": [
+                          "item_index_clean"
+                        ],
+                        "reducer": "lastNotNull"
+                      }
+                    }
+                  }
+                },
+                {
+                  "group": "calculateField",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "alias": "Name",
+                      "mode": "reduceRow",
+                      "reduce": {
+                        "include": [
+                          "user_device"
+                        ],
+                        "reducer": "lastNotNull"
+                      }
+                    }
+                  }
+                },
+                {
+                  "group": "filterByValue",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "filters": [
+                        {
+                          "config": {
+                            "id": "equal",
+                            "options": {
+                              "value": "Audio"
+                            }
+                          },
+                          "fieldName": "type"
+                        }
+                      ],
+                      "match": "any",
+                      "type": "include"
+                    }
+                  }
+                },
+                {
+                  "group": "partitionByValues",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "fields": [
+                        "Name"
+                      ],
+                      "keepFields": true
+                    }
+                  }
+                },
+                {
+                  "group": "filterFieldsByName",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "include": {
+                        "pattern": "item_index_clean|Time (.*)"
+                      }
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "item_index_clean (.*)",
+                      "renamePattern": "$1"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "description": "",
+          "id": 24,
+          "links": [],
+          "title": "Now Playing - Music",
+          "vizConfig": {
+            "group": "state-timeline",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisPlacement": "auto",
+                    "fillOpacity": 70,
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineWidth": 0,
+                    "spanNulls": false
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "alignValue": "left",
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "displayMode": "list",
+                  "overflow": "ellipsis",
+                  "placement": "bottom",
+                  "showLegend": false
+                },
+                "mergeValues": true,
+                "rowHeight": 0.9,
+                "showValue": "auto",
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
+                }
+              }
+            },
+            "version": "13.1.0"
           }
         }
       },
@@ -1681,7 +2003,7 @@
                     "steps": [
                       {
                         "color": "green",
-                        "value": null
+                        "value": 0
                       },
                       {
                         "color": "red",
@@ -1694,8 +2016,13 @@
               },
               "options": {
                 "alignValue": "left",
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
                 "legend": {
                   "displayMode": "list",
+                  "overflow": "ellipsis",
                   "placement": "bottom",
                   "showLegend": false
                 },
@@ -1709,7 +2036,7 @@
                 }
               }
             },
-            "version": "11.6.0"
+            "version": "13.1.0"
           }
         }
       },
@@ -1820,6 +2147,7 @@
                       "type": "linear"
                     },
                     "showPoints": "never",
+                    "showValues": false,
                     "spanNulls": false,
                     "stacking": {
                       "group": "A",
@@ -1835,7 +2163,7 @@
                     "steps": [
                       {
                         "color": "green",
-                        "value": null
+                        "value": 0
                       },
                       {
                         "color": "red",
@@ -1848,11 +2176,17 @@
                 "overrides": []
               },
               "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
                 "legend": {
                   "calcs": [
                     "mean"
                   ],
                   "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
                   "placement": "bottom",
                   "showLegend": true
                 },
@@ -1863,7 +2197,7 @@
                 }
               }
             },
-            "version": "11.6.0"
+            "version": "13.1.0"
           }
         }
       },
@@ -2032,6 +2366,7 @@
                       "type": "linear"
                     },
                     "showPoints": "never",
+                    "showValues": false,
                     "spanNulls": false,
                     "stacking": {
                       "group": "A",
@@ -2047,7 +2382,7 @@
                     "steps": [
                       {
                         "color": "green",
-                        "value": null
+                        "value": 0
                       },
                       {
                         "color": "red",
@@ -2060,11 +2395,17 @@
                 "overrides": []
               },
               "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
                 "legend": {
                   "calcs": [
                     "mean"
                   ],
                   "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
                   "placement": "bottom",
                   "showLegend": true
                 },
@@ -2075,7 +2416,7 @@
                 }
               }
             },
-            "version": "11.6.0"
+            "version": "13.1.0"
           }
         }
       },
@@ -2205,6 +2546,7 @@
                       "type": "linear"
                     },
                     "showPoints": "never",
+                    "showValues": false,
                     "spanNulls": false,
                     "stacking": {
                       "group": "A",
@@ -2222,7 +2564,7 @@
                     "steps": [
                       {
                         "color": "green",
-                        "value": null
+                        "value": 0
                       },
                       {
                         "color": "red",
@@ -2442,11 +2784,17 @@
                 ]
               },
               "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
                 "legend": {
                   "calcs": [
                     "mean"
                   ],
                   "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
                   "placement": "bottom",
                   "showLegend": true
                 },
@@ -2457,7 +2805,7 @@
                 }
               }
             },
-            "version": "11.6.0"
+            "version": "13.1.0"
           }
         }
       },
@@ -2571,6 +2919,7 @@
                       "type": "log"
                     },
                     "showPoints": "always",
+                    "showValues": false,
                     "spanNulls": false,
                     "stacking": {
                       "group": "A",
@@ -2585,7 +2934,7 @@
                     "steps": [
                       {
                         "color": "green",
-                        "value": null
+                        "value": 0
                       },
                       {
                         "color": "red",
@@ -2639,11 +2988,17 @@
                 ]
               },
               "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
                 "legend": {
                   "calcs": [
                     "mean"
                   ],
                   "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
                   "placement": "bottom",
                   "showLegend": true
                 },
@@ -2654,7 +3009,7 @@
                 }
               }
             },
-            "version": "11.6.0"
+            "version": "13.1.0"
           }
         }
       }
@@ -2703,7 +3058,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-14"
+                          "name": "panel-15"
                         },
                         "height": 5,
                         "width": 5,
@@ -2716,7 +3071,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-15"
+                          "name": "panel-23"
                         },
                         "height": 5,
                         "width": 5,
@@ -2729,12 +3084,38 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
+                          "name": "panel-14"
+                        },
+                        "height": 5,
+                        "width": 5,
+                        "x": 4,
+                        "y": 5
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
                           "name": "panel-16"
                         },
                         "height": 5,
                         "width": 5,
-                        "x": 19,
-                        "y": 0
+                        "x": 9,
+                        "y": 5
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-24"
+                        },
+                        "height": 9,
+                        "width": 24,
+                        "x": 0,
+                        "y": 10
                       }
                     },
                     {
@@ -2747,7 +3128,7 @@
                         "height": 9,
                         "width": 24,
                         "x": 0,
-                        "y": 5
+                        "y": 19
                       }
                     },
                     {
@@ -2760,7 +3141,7 @@
                         "height": 9,
                         "width": 24,
                         "x": 0,
-                        "y": 14
+                        "y": 28
                       }
                     },
                     {
@@ -2773,7 +3154,7 @@
                         "height": 9,
                         "width": 24,
                         "x": 0,
-                        "y": 23
+                        "y": 37
                       }
                     },
                     {
@@ -2786,7 +3167,7 @@
                         "height": 10,
                         "width": 12,
                         "x": 0,
-                        "y": 32
+                        "y": 46
                       }
                     },
                     {
@@ -2799,7 +3180,7 @@
                         "height": 10,
                         "width": 12,
                         "x": 12,
-                        "y": 32
+                        "y": 46
                       }
                     }
                   ]
@@ -2903,7 +3284,20 @@
         ]
       }
     },
-    "links": [],
+    "links": [
+      {
+        "asDropdown": false,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": true,
+        "title": "Source (GitHub)",
+        "tooltip": "View source file in repository",
+        "type": "link",
+        "url": "https://github.com/SethBarberee/grafana_sync/blob/main/jellyfin.json"
+      }
+    ],
     "liveNow": true,
     "preload": false,
     "tags": [
@@ -2926,6 +3320,7 @@
       "fiscalYearStartMonth": 0,
       "from": "now/d",
       "hideTimepicker": false,
+      "timezone": "browser",
       "to": "now"
     },
     "title": "Jellyfin",
@@ -3001,8 +3396,8 @@
         "spec": {
           "allowCustomValue": true,
           "current": {
-            "text": "",
-            "value": ""
+            "text": "192.168.50.234:9594",
+            "value": "192.168.50.234:9594"
           },
           "definition": "label_values(jellyfin_up,instance)",
           "hide": "dontHide",
@@ -3026,6 +3421,7 @@
           },
           "refresh": "onDashboardLoad",
           "regex": "",
+          "regexApplyTo": "value",
           "skipUrlSync": false,
           "sort": "disabled"
         }
