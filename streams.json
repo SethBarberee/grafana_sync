@@ -1,0 +1,459 @@
+{
+  "apiVersion": "dashboard.grafana.app/v1",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "dcfut3l2f3g2kgf"
+  },
+  "spec": {
+    "datasource": {
+      "type": "prometheus",
+      "uid": "Vc-zI2snz"
+    },
+    "fieldConfig": {
+      "defaults": {
+        "custom": {
+          "align": "center",
+          "cellOptions": {
+            "type": "auto"
+          },
+          "filterable": false,
+          "footer": {
+            "reducers": []
+          },
+          "inspect": false,
+          "minWidth": 50,
+          "wrapHeaderText": false,
+          "wrapText": false
+        },
+        "mappings": [],
+        "thresholds": {
+          "mode": "absolute",
+          "steps": [
+            {
+              "color": "green",
+              "value": null
+            },
+            {
+              "color": "red",
+              "value": 80
+            }
+          ]
+        }
+      },
+      "overrides": [
+        {
+          "matcher": {
+            "id": "byName",
+            "options": "Channel"
+          },
+          "properties": [
+            {
+              "id": "custom.width",
+              "value": 150
+            },
+            {
+              "id": "decimals",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "matcher": {
+            "id": "byName",
+            "options": "Logo"
+          },
+          "properties": [
+            {
+              "id": "custom.cellOptions",
+              "value": {
+                "type": "image"
+              }
+            },
+            {
+              "id": "custom.width",
+              "value": 200
+            },
+            {
+              "id": "custom.align",
+              "value": "center"
+            }
+          ]
+        },
+        {
+          "matcher": {
+            "id": "byName",
+            "options": "Uptime"
+          },
+          "properties": [
+            {
+              "id": "unit",
+              "value": "s"
+            },
+            {
+              "id": "decimals",
+              "value": 0
+            },
+            {
+              "id": "custom.width",
+              "value": 100
+            },
+            {
+              "id": "custom.filterable",
+              "value": false
+            }
+          ]
+        },
+        {
+          "matcher": {
+            "id": "byName",
+            "options": "state"
+          },
+          "properties": [
+            {
+              "id": "custom.cellOptions",
+              "value": {
+                "applyToRow": true,
+                "type": "color-background"
+              }
+            },
+            {
+              "id": "custom.wrapText",
+              "value": false
+            },
+            {
+              "id": "custom.hideFrom.viz",
+              "value": true
+            },
+            {
+              "id": "mappings",
+              "value": [
+                {
+                  "options": {
+                    "active": {
+                      "color": "#55a64b80",
+                      "index": 0
+                    },
+                    "buffering": {
+                      "color": "#ff780a80",
+                      "index": 1
+                    },
+                    "error": {
+                      "color": "#e02f4480",
+                      "index": 3
+                    },
+                    "waiting_for_clients": {
+                      "color": "#1f61c480",
+                      "index": 2
+                    }
+                  },
+                  "type": "value"
+                }
+              ]
+            },
+            {
+              "id": "color",
+              "value": {
+                "mode": "palette-classic-by-name"
+              }
+            }
+          ]
+        },
+        {
+          "matcher": {
+            "id": "byValue",
+            "options": {
+              "op": "neq",
+              "reducer": "allValues",
+              "value": 99999999
+            }
+          },
+          "properties": [
+            {
+              "id": "custom.filterable"
+            },
+            {
+              "id": "filterable"
+            }
+          ]
+        },
+        {
+          "matcher": {
+            "id": "byName",
+            "options": "Provider"
+          },
+          "properties": [
+            {
+              "id": "custom.width",
+              "value": 175
+            }
+          ]
+        },
+        {
+          "matcher": {
+            "id": "byName",
+            "options": "Profile"
+          },
+          "properties": [
+            {
+              "id": "custom.width",
+              "value": 100
+            }
+          ]
+        },
+        {
+          "matcher": {
+            "id": "byName",
+            "options": "Resolution"
+          },
+          "properties": [
+            {
+              "id": "custom.width",
+              "value": 100
+            }
+          ]
+        },
+        {
+          "matcher": {
+            "id": "byName",
+            "options": "Progress"
+          },
+          "properties": [
+            {
+              "id": "custom.cellOptions",
+              "value": {
+                "mode": "basic",
+                "type": "gauge",
+                "valueDisplayMode": "hidden"
+              }
+            },
+            {
+              "id": "unit",
+              "value": "percentunit"
+            },
+            {
+              "id": "decimals",
+              "value": 0
+            },
+            {
+              "id": "min",
+              "value": 0
+            },
+            {
+              "id": "max",
+              "value": 1
+            },
+            {
+              "id": "color",
+              "value": {
+                "fixedColor": "text",
+                "mode": "fixed"
+              }
+            },
+            {
+              "id": "custom.width",
+              "value": 75
+            }
+          ]
+        },
+        {
+          "matcher": {
+            "id": "byName",
+            "options": "Program"
+          },
+          "properties": [
+            {
+              "id": "custom.align",
+              "value": "auto"
+            }
+          ]
+        },
+        {
+          "matcher": {
+            "id": "byName",
+            "options": "Type"
+          },
+          "properties": [
+            {
+              "id": "custom.width",
+              "value": 100
+            }
+          ]
+        }
+      ]
+    },
+    "gridPos": {
+      "h": 7,
+      "w": 24,
+      "x": 0,
+      "y": 6
+    },
+    "options": {
+      "cellHeight": "lg",
+      "enablePagination": false,
+      "showHeader": false,
+      "sortBy": []
+    },
+    "pluginVersion": "12.3.3",
+    "targets": [
+      {
+        "editorMode": "code",
+        "exemplar": false,
+        "expr": "label_join(\n  dispatcharr_stream_uptime_seconds\n  * on(channel_uuid, channel_number) group_left(channel_name, logo_url, state, provider, profile_name, resolution)\n      dispatcharr_stream_metadata,\n  \"provider_full\",\n  \" \",\n  \"provider\",\n  \"profile_name\"\n)",
+        "format": "table",
+        "instant": true,
+        "range": false,
+        "refId": "A"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Vc-zI2snz"
+        },
+        "editorMode": "code",
+        "exemplar": false,
+        "expr": "label_join(\n  dispatcharr_stream_programming{current_subtitle!=\"\"}\n  * on(channel_uuid, channel_number) group_left(channel_name, logo_url, state, provider, profile_name, resolution)\n      dispatcharr_stream_metadata,\n  \"program_title_full\",\n  \" - \",\n  \"current_title\",\n  \"current_subtitle\"\n)\nor\nlabel_join(\n  dispatcharr_stream_programming{current_subtitle=\"\"}\n  * on(channel_uuid, channel_number) group_left(channel_name, logo_url, state, provider, profile_name, resolution)\n      dispatcharr_stream_metadata,\n  \"program_title_full\",\n  \"\",\n  \"current_title\"\n)",
+        "format": "table",
+        "hide": false,
+        "instant": true,
+        "range": false,
+        "refId": "B"
+      }
+    ],
+    "templating": {
+      "list": []
+    },
+    "title": "Jellyfin LiveTV Streams",
+    "transformations": [
+      {
+        "id": "labelsToFields",
+        "options": {
+          "mode": "columns"
+        }
+      },
+      {
+        "id": "merge",
+        "options": {}
+      },
+      {
+        "id": "organize",
+        "options": {
+          "excludeByName": {
+            "Time": true,
+            "Value #A": false,
+            "Value #B": true,
+            "__name__": true,
+            "channel_group": true,
+            "channel_name": false,
+            "channel_uuid": true,
+            "current_description": true,
+            "current_end_time": true,
+            "current_start_time": true,
+            "current_subtitle": true,
+            "current_title": true,
+            "group": true,
+            "instance": true,
+            "job": true,
+            "next_description": true,
+            "next_end_time": true,
+            "next_start_time": true,
+            "next_subtitle": true,
+            "next_title": true,
+            "previous_description": true,
+            "previous_end_time": true,
+            "previous_start_time": true,
+            "previous_subtitle": true,
+            "previous_title": true,
+            "process": true,
+            "profile_id": true,
+            "profile_name": true,
+            "program_title_full": false,
+            "provider": true,
+            "provider_type": true,
+            "resolution": false,
+            "stream_id": true,
+            "stream_name": true,
+            "stream_profile": true,
+            "type": true,
+            "video_codec": true
+          },
+          "includeByName": {},
+          "indexByName": {
+            "Time": 10,
+            "Value #A": 16,
+            "Value #B": 5,
+            "channel_name": 3,
+            "channel_number": 0,
+            "channel_uuid": 11,
+            "current_description": 18,
+            "current_end_time": 19,
+            "current_start_time": 20,
+            "current_subtitle": 21,
+            "current_title": 22,
+            "group": 12,
+            "instance": 13,
+            "job": 14,
+            "logo_url": 1,
+            "next_description": 23,
+            "next_end_time": 24,
+            "next_start_time": 25,
+            "next_subtitle": 26,
+            "next_title": 27,
+            "previous_description": 28,
+            "previous_end_time": 29,
+            "previous_start_time": 30,
+            "previous_subtitle": 31,
+            "previous_title": 32,
+            "process": 15,
+            "profile_name": 7,
+            "program_title_full": 4,
+            "provider": 6,
+            "provider_full": 8,
+            "resolution": 17,
+            "state": 9,
+            "type": 2
+          },
+          "renameByName": {
+            "Value": "Uptime",
+            "Value #A": "Uptime",
+            "Value #B": "Progress",
+            "channel_name": "Name",
+            "channel_number": "Channel",
+            "current_title": "Title",
+            "logo_url": "Logo",
+            "profile_name": "Profile",
+            "program_title_full": "Program",
+            "provider": "Provider",
+            "provider_full": "Provider",
+            "resolution": "Resolution",
+            "type": "Type"
+          }
+        }
+      },
+      {
+        "id": "convertFieldType",
+        "options": {
+          "conversions": [
+            {
+              "destinationType": "number",
+              "targetField": "Channel"
+            }
+          ],
+          "fields": {}
+        }
+      },
+      {
+        "id": "sortBy",
+        "options": {
+          "fields": {},
+          "sort": [
+            {
+              "desc": true,
+              "field": "Uptime"
+            }
+          ]
+        }
+      }
+    ],
+    "type": "table"
+  }
+}
