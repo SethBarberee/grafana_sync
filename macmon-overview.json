@@ -1081,7 +1081,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
-                        "expr": "macmon_ecpu_freq_mhz",
+                        "expr": "macmon_cpu_tier_freq_mhz{tier=\"E\"}",
                         "legendFormat": "E-core freq",
                         "range": true
                       },
@@ -1123,13 +1123,34 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
-                        "expr": "macmon_pcpu_freq_mhz",
+                        "expr": "macmon_cpu_tier_freq_mhz{tier=\"P\"}",
                         "legendFormat": "P-core freq",
                         "range": true
                       },
                       "version": "v0"
                     },
                     "refId": "C"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "expr": "macmon_cpu_tier_freq_mhz{tier=\"S\"}",
+                        "legendFormat": "S-core freq",
+                        "range": true
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "D"
                   }
                 }
               ],
@@ -1354,7 +1375,20 @@
         ]
       }
     },
-    "links": [],
+    "links": [
+      {
+        "asDropdown": false,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": true,
+        "title": "Source (GitHub)",
+        "tooltip": "View source file in repository",
+        "type": "link",
+        "url": "https://github.com/SethBarberee/grafana_sync/blob/main/macmon-overview.json"
+      }
+    ],
     "liveNow": false,
     "preload": false,
     "tags": [
