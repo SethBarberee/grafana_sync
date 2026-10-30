@@ -48,7 +48,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_up",
+                        "expr": "romm_up{instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -60,13 +60,35 @@
                 }
               ],
               "queryOptions": {},
-              "transformations": []
+              "transformations": [
+                {
+                  "group": "labelsToFields",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "keepLabels": [
+                        "__name__"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "romm_up",
+                      "renamePattern": "ROMM"
+                    }
+                  }
+                }
+              ]
             }
           },
           "description": "",
           "id": 1,
           "links": [],
-          "title": "ROMM",
+          "title": "",
           "vizConfig": {
             "group": "stat",
             "kind": "VizConfig",
@@ -112,8 +134,8 @@
               "options": {
                 "colorMode": "background",
                 "graphMode": "none",
-                "justifyMode": "auto",
-                "orientation": "auto",
+                "justifyMode": "center",
+                "orientation": "horizontal",
                 "percentChangeColorMode": "standard",
                 "reduceOptions": {
                   "calcs": [
@@ -150,7 +172,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_metadata_source_enabled{source=\"launchbox\"}",
+                        "expr": "romm_metadata_source_enabled{source=\"launchbox\", instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -252,7 +274,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_metadata_source_enabled{source=\"libretro\"}",
+                        "expr": "romm_metadata_source_enabled{source=\"libretro\", instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -354,7 +376,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_metadata_source_enabled{source=\"moby\"}",
+                        "expr": "romm_metadata_source_enabled{source=\"moby\", instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -456,7 +478,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_metadata_source_enabled{source=\"ra\"}",
+                        "expr": "romm_metadata_source_enabled{source=\"ra\", instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -558,7 +580,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_metadata_source_enabled{source=\"playmatch\"}",
+                        "expr": "romm_metadata_source_enabled{source=\"playmatch\", instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -660,7 +682,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_metadata_source_enabled{source=\"ss\"}",
+                        "expr": "romm_metadata_source_enabled{source=\"ss\", instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -762,7 +784,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_metadata_source_enabled{source=\"steamgriddb\"}",
+                        "expr": "romm_metadata_source_enabled{source=\"steamgriddb\", instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -864,7 +886,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_metadata_source_enabled{source=\"tgdb\"}",
+                        "expr": "romm_metadata_source_enabled{source=\"tgdb\", instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -966,7 +988,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_metadata_source_enabled{source=\"pouet\"}",
+                        "expr": "romm_metadata_source_enabled{source=\"pouet\", instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -1069,7 +1091,7 @@
                       "spec": {
                         "editorMode": "builder",
                         "exemplar": false,
-                        "expr": "sort(romm_platform_firmware_count != 0)",
+                        "expr": "sort(romm_platform_firmware_count{instance=\"$romm_instance\"} != 0)",
                         "instant": true,
                         "legendFormat": "__auto",
                         "range": false
@@ -1089,39 +1111,33 @@
           "links": [],
           "title": "Platform Firmware",
           "vizConfig": {
-            "group": "bargauge",
+            "group": "piechart",
             "kind": "VizConfig",
             "spec": {
               "fieldConfig": {
                 "defaults": {
                   "color": {
-                    "mode": "thresholds"
+                    "fixedColor": "#73BF69",
+                    "mode": "palette-classic"
                   },
-                  "thresholds": {
-                    "mode": "percentage",
-                    "steps": [
-                      {
-                        "color": "green",
-                        "value": 0
-                      }
-                    ]
+                  "custom": {
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
                   }
                 },
                 "overrides": []
               },
               "options": {
-                "displayMode": "basic",
+                "displayLabels": [],
                 "legend": {
-                  "calcs": [],
                   "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": false
+                  "placement": "right",
+                  "showLegend": true
                 },
-                "maxVizHeight": 300,
-                "minVizHeight": 16,
-                "minVizWidth": 8,
-                "namePlacement": "auto",
-                "orientation": "horizontal",
+                "pieType": "pie",
                 "reduceOptions": {
                   "calcs": [
                     "lastNotNull"
@@ -1129,9 +1145,12 @@
                   "fields": "",
                   "values": false
                 },
-                "showUnfilled": true,
-                "sizing": "auto",
-                "valueMode": "color"
+                "sort": "desc",
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
             },
             "version": "13.2.4"
@@ -1157,7 +1176,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_auth_ok",
+                        "expr": "romm_auth_ok{instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -1282,9 +1301,9 @@
                       "group": "prometheus",
                       "kind": "DataQuery",
                       "spec": {
-                        "editorMode": "code",
+                        "editorMode": "builder",
                         "exemplar": false,
-                        "expr": "sort(romm_platform_rom_count != 0)",
+                        "expr": "sort(romm_platform_rom_count{instance=\"$romm_instance\"} != 0)",
                         "instant": true,
                         "legendFormat": "__auto",
                         "range": false
@@ -1304,39 +1323,36 @@
           "links": [],
           "title": "ROM Count / Platform",
           "vizConfig": {
-            "group": "bargauge",
+            "group": "piechart",
             "kind": "VizConfig",
             "spec": {
               "fieldConfig": {
                 "defaults": {
                   "color": {
-                    "mode": "thresholds"
+                    "fixedColor": "#73BF69",
+                    "mode": "palette-classic"
                   },
-                  "thresholds": {
-                    "mode": "percentage",
-                    "steps": [
-                      {
-                        "color": "green",
-                        "value": 0
-                      }
-                    ]
+                  "custom": {
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
                   }
                 },
                 "overrides": []
               },
               "options": {
-                "displayMode": "basic",
+                "displayLabels": [],
                 "legend": {
-                  "calcs": [],
                   "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": false
+                  "placement": "right",
+                  "showLegend": true,
+                  "values": [
+                    "value"
+                  ]
                 },
-                "maxVizHeight": 300,
-                "minVizHeight": 16,
-                "minVizWidth": 8,
-                "namePlacement": "auto",
-                "orientation": "horizontal",
+                "pieType": "pie",
                 "reduceOptions": {
                   "calcs": [
                     "lastNotNull"
@@ -1344,9 +1360,12 @@
                   "fields": "",
                   "values": false
                 },
-                "showUnfilled": true,
-                "sizing": "auto",
-                "valueMode": "color"
+                "sort": "desc",
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
             },
             "version": "13.2.4"
@@ -1371,8 +1390,8 @@
                       "group": "influxdb",
                       "kind": "DataQuery",
                       "spec": {
-                        "editorMode": "code",
-                        "expr": "romm_platform_rom_count != 0",
+                        "editorMode": "builder",
+                        "expr": "romm_platform_rom_count{instance=\"$romm_instance\"} != 0",
                         "legendFormat": "__auto",
                         "range": true
                       },
@@ -1456,7 +1475,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_version_info",
+                        "expr": "romm_version_info{instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -1560,7 +1579,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_metadata_source_enabled{source=\"csdb\"}",
+                        "expr": "romm_metadata_source_enabled{source=\"csdb\", instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -1662,7 +1681,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_metadata_source_enabled{source=\"demozoo\"}",
+                        "expr": "romm_metadata_source_enabled{source=\"demozoo\", instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -1764,7 +1783,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_metadata_source_enabled{source=\"flashpoint\"}",
+                        "expr": "romm_metadata_source_enabled{source=\"flashpoint\", instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -1866,7 +1885,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_metadata_source_enabled{source=\"hasheous\"}",
+                        "expr": "romm_metadata_source_enabled{source=\"hasheous\", instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -1968,7 +1987,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_metadata_source_enabled{source=\"hltb\"}",
+                        "expr": "romm_metadata_source_enabled{source=\"hltb\", instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -2070,7 +2089,7 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "romm_metadata_source_enabled{source=\"igdb\"}",
+                        "expr": "romm_metadata_source_enabled{source=\"igdb\", instance=\"$romm_instance\"}",
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
@@ -2470,7 +2489,7 @@
                   ]
                 }
               },
-              "title": "New row 1"
+              "title": "Platform Info"
             }
           }
         ]
