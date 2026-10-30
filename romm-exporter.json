@@ -1348,9 +1348,7 @@
                   "displayMode": "list",
                   "placement": "right",
                   "showLegend": true,
-                  "values": [
-                    "value"
-                  ]
+                  "values": []
                 },
                 "pieType": "pie",
                 "reduceOptions": {
