@@ -1093,7 +1093,7 @@
                         "exemplar": false,
                         "expr": "sort(romm_platform_firmware_count{instance=\"$romm_instance\"} != 0)",
                         "instant": true,
-                        "legendFormat": "__auto",
+                        "legendFormat": "{{platform_id}}",
                         "range": false
                       },
                       "version": "v0"
@@ -1103,7 +1103,78 @@
                 }
               ],
               "queryOptions": {},
-              "transformations": []
+              "transformations": [
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "33",
+                      "renamePattern": "Dreamcast"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "65",
+                      "renamePattern": "Nintendo DS"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "5",
+                      "renamePattern": "Nintendo Game Boy Color"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "1",
+                      "renamePattern": "Nintendo Game Boy Advance"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "133",
+                      "renamePattern": "Nintendo GameCube"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "39",
+                      "renamePattern": "Sega Game Gear"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "41",
+                      "renamePattern": "Nintendo Game Boy"
+                    }
+                  }
+                }
+              ]
             }
           },
           "description": "",
@@ -1305,7 +1376,7 @@
                         "exemplar": false,
                         "expr": "sort(romm_platform_rom_count{instance=\"$romm_instance\"} != 0)",
                         "instant": true,
-                        "legendFormat": "__auto",
+                        "legendFormat": "{{platform_id}}",
                         "range": false
                       },
                       "version": "v0"
@@ -1315,7 +1386,178 @@
                 }
               ],
               "queryOptions": {},
-              "transformations": []
+              "transformations": [
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "12",
+                      "renamePattern": "Atari 2600"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "65",
+                      "renamePattern": "Nintendo DS"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "1",
+                      "renamePattern": "Nintendo Game Boy Advance"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "39",
+                      "renamePattern": "Sega Game Gear"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "125",
+                      "renamePattern": "Nintendo 3DS"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "126",
+                      "renamePattern": "Microsoft Xbox"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "19",
+                      "renamePattern": "Atomiswave"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "33",
+                      "renamePattern": "Dreamcast"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "53",
+                      "renamePattern": "Sega Mega Drive/Genesis"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "85",
+                      "renamePattern": "PlayStation Portable"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "2",
+                      "renamePattern": "BIOS"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "133",
+                      "renamePattern": "Nintendo GameCube"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "128",
+                      "renamePattern": "Nintendo WII"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "122",
+                      "renamePattern": "Windows"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "5",
+                      "renamePattern": "Nintendo Game Boy Color"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "82",
+                      "renamePattern": "Pico-8"
+                    }
+                  }
+                },
+                {
+                  "group": "renameByRegex",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "regex": "3",
+                      "renamePattern": "Super Nintendo Entertainment System"
+                    }
+                  }
+                }
+              ]
             }
           },
           "description": "",
@@ -1364,90 +1606,6 @@
                   "mode": "single",
                   "sort": "none"
                 }
-              }
-            },
-            "version": "13.2.4"
-          }
-        }
-      },
-      "panel-21": {
-        "kind": "Panel",
-        "spec": {
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "query": {
-                      "datasource": {
-                        "name": "${Datasource}"
-                      },
-                      "group": "prometheus",
-                      "kind": "DataQuery",
-                      "spec": {
-                        "editorMode": "builder",
-                        "expr": "romm_platform_rom_count{instance=\"$romm_instance\"} != 0",
-                        "legendFormat": "__auto",
-                        "range": true
-                      },
-                      "version": "v0"
-                    },
-                    "refId": "A"
-                  }
-                }
-              ],
-              "queryOptions": {},
-              "transformations": []
-            }
-          },
-          "description": "",
-          "id": 21,
-          "links": [],
-          "title": "New panel",
-          "vizConfig": {
-            "group": "stat",
-            "kind": "VizConfig",
-            "spec": {
-              "fieldConfig": {
-                "defaults": {
-                  "color": {
-                    "mode": "thresholds"
-                  },
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "color": "green",
-                        "value": 0
-                      },
-                      {
-                        "color": "red",
-                        "value": 80
-                      }
-                    ]
-                  }
-                },
-                "overrides": []
-              },
-              "options": {
-                "colorMode": "value",
-                "graphMode": "area",
-                "justifyMode": "auto",
-                "orientation": "auto",
-                "percentChangeColorMode": "standard",
-                "reduceOptions": {
-                  "calcs": [
-                    "lastNotNull"
-                  ],
-                  "fields": "",
-                  "values": false
-                },
-                "showPercentChange": false,
-                "textMode": "auto",
-                "wideLayout": true
               }
             },
             "version": "13.2.4"
@@ -2214,19 +2372,6 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-21"
-                        },
-                        "height": 6,
-                        "width": 16,
-                        "x": 8,
-                        "y": 0
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
                           "name": "panel-2"
                         },
                         "height": 3,
@@ -2465,7 +2610,7 @@
                           "kind": "ElementReference",
                           "name": "panel-19"
                         },
-                        "height": 8,
+                        "height": 13,
                         "width": 12,
                         "x": 0,
                         "y": 0
@@ -2478,7 +2623,7 @@
                           "kind": "ElementReference",
                           "name": "panel-20"
                         },
-                        "height": 8,
+                        "height": 13,
                         "width": 12,
                         "x": 12,
                         "y": 0
